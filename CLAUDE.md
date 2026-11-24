@@ -45,6 +45,9 @@ src/
 │                with brand icons from `react-icons/si` / `src/data/skills.ts`, and by Soft Skills with
 │                `fa6` icons in `text-primary` / `src/data/softSkills.ts`, labels translated via i18n keys),
 │                Education (school / years / field rows, data in `src/data/education.ts`),
+│                Experience (client; 42×42 round logo, role + right-aligned date range · duration, company · type,
+│                description in `text-description` (same look as About's `text-body`),
+│                data in `src/data/experience.ts`, logos in `public/experience/`),
 │                BookList (async server component, last 6 books, 6/3/2 columns) + BookCard (385×600 cover, rounded + shadow)
 ├─ i18n/         locales/{tr,en}.json, config.ts (i18next instance, locales, langInitScript),
 │                i18next.d.ts (typed keys), I18nProvider.tsx, useLocale.ts (useT/useLocale), T.tsx (<T k="…" />)
@@ -79,7 +82,7 @@ How it fits together:
   Use them as `bg-background`, `text-text`, `text-subtext`, `text-muted`, `text-primary`.
   Technology logos in Skills use `--color-brand-*` tokens (e.g. `text-brand-react`), also defined in `globals.css`; black-by-brand logos (Expo, Next.js) use `text-text`. The dark values are applied to the same variables through Tailwind's `dark` variant (`@variant dark` on `:root`), so components don't need `dark:` color variants.
 - **Font:** all text uses Inter Regular (`next/font/google` in `layout.tsx`, exposed as `--font-sans: var(--font-inter), sans-serif`). Don't add font weights unless the design asks for them.
-- **Font sizes are responsive, never fixed px.** Define them as `--text-*` tokens in `globals.css` (`@theme`) with rem-based `clamp()` (e.g. `--text-name` 17→19px, `--text-title` 13→15px) and use them as `text-name`, `text-title`.
+- **Font sizes are responsive, never fixed px.** Define them as `--text-*` tokens in `globals.css` (`@theme`) with rem-based `clamp()` (e.g. `--text-name` 17→19px, `--text-title` 13→15px) and use them as `text-name`, `text-title`. Each use gets its own token even when values match (e.g. `--text-description` mirrors `--text-body`).
 
 ### Theme (light/dark), handled by Tailwind
 - The `dark` variant is a custom variant in `globals.css`. It is active when the device prefers dark (`@media (prefers-color-scheme: dark)`) unless `<html data-theme="light">`, or when `<html data-theme="dark">`.

@@ -5,6 +5,7 @@ import About from "@/components/About";
 import BookList from "@/components/BookList";
 import ContactList from "@/components/ContactList";
 import Education from "@/components/Education";
+import Experience from "@/components/Experience";
 import Section from "@/components/Section";
 import SkillList from "@/components/SkillList";
 import TextButton from "@/components/TextButton";
@@ -43,7 +44,9 @@ export default function Home() {
       <Section id="about" title={<T k="about" />}>
         <About />
       </Section>
-      <Section id="experience" title={<T k="experience" />} />
+      <Section id="experience" title={<T k="experience" />}>
+        <Experience />
+      </Section>
       <Section id="skills" title={<T k="skills" />}>
         <SkillList
           items={skills.map(({ icon, label, colorClass }) => ({

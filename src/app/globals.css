@@ -45,6 +45,8 @@
   --text-entry: 0.875rem; /* 14px, same as --text-section; list entries (e.g. Education rows) */
   --text-body: 0.8125rem; /* 13px, smaller than section titles */
   --text-body--line-height: 1.625;
+  --text-description: 0.8125rem; /* 13px, same as --text-body; Experience descriptions */
+  --text-description--line-height: 1.625;
   --text-caption: 0.8rem; /* 10px, e.g. "Read more" */
 }
 
