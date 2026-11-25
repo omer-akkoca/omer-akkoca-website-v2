@@ -70,7 +70,7 @@ export default function Experience() {
               alt={company}
               width={42}
               height={42}
-              className="size-8 shrink-0 rounded-md object-cover mt-1"
+              className="size-10 shrink-0 rounded-md object-cover"
             />
             <div className="min-w-0 flex-1">
               <div className="flex items-baseline justify-between gap-4">
@@ -83,7 +83,7 @@ export default function Experience() {
               <p className="text-entry text-muted">
                 {company} · {t(employmentTypeKey)}{durationText(startDate, endDate)}
               </p>
-              <p className="mt-1 text-body whitespace-pre-line text-subtext">
+              <p className="mt-1 text-body whitespace-pre-line text-subtext text-justify">
                 {t(descriptionKey)}
               </p>
             </div>

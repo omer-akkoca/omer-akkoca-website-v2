@@ -37,7 +37,7 @@ export default function About() {
       >
         <p
           id="about-text"
-          className={`text-body whitespace-pre-line text-subtext ${
+          className={`text-body whitespace-pre-line text-justify text-subtext ${
             clamped ? "line-clamp-5" : ""
           }`}
         >
