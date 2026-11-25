@@ -37,10 +37,15 @@
   "education": "Eğitim",
   "educationKtuSchool": "Karadeniz Teknik Üniversitesi",
   "educationKtuField": "Yazılım Mühendisliği",
+  "home": "Anasayfa",
   "books": "Kitaplar",
-  "backHome": "← Ana sayfa",
+  "navBooks": "Okunan Kitaplar",
   "noBooks": "Henüz kitap eklenmedi.",
+  "films": "Film/Tiyatro",
+  "noFilms": "Henüz film/tiyatro eklenmedi.",
+  "mainNav": "Ana menü",
   "switchToDark": "Koyu temaya geç",
   "switchToLight": "Açık temaya geç",
-  "language": "Dil"
+  "switchToEnglish": "İngilizceye geç",
+  "switchToTurkish": "Türkçeye geç"
 }

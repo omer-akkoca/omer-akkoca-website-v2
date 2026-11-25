@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Header from "@/components/Header";
+import Navbar from "@/components/Navbar";
 import { langInitScript } from "@/i18n/config";
 import I18nProvider from "@/i18n/I18nProvider";
 import { siteConfig } from "@/lib/site";
@@ -35,7 +35,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="flex min-h-full flex-col bg-background font-sans text-text [[data-lang-pending]_&]:invisible">
         <ThemeProvider>
           <I18nProvider>
-            <Header />
+            <Navbar />
             {children}
           </I18nProvider>
         </ThemeProvider>

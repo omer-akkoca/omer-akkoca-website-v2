@@ -9,8 +9,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Personal CV website for Ömer Akkoca. The goal is a CV-style personal site that is discoverable on Google, so SEO matters: content should be rendered on the server / at build time.
 
 Scope:
-- **Home page** (`/`): Hero (photo + name/title), Contact (icon + link grid, data in `src/data/contact.ts`), About, Experience, Skills, Soft Skills, and Education. There is no Books section on the home page and no link to `/books` from it.
+- **Home page** (`/`): Hero (photo + name/title), Contact (icon + link grid, data in `src/data/contact.ts`), About, Experience, Skills, Soft Skills, and Education. There is no Books section on the home page; `/books` is reached through the navbar.
 - **Books page** (`/books`): full list of books read. The data is kept in Firebase.
+- **Films page** (`/films`): films and plays watched (currently an empty-state placeholder).
+- **Navbar** on every page: tabs Anasayfa (`/`), Okunan Kitaplar (`/books`), Film/Tiyatro (`/films`), plus language and theme controls.
 - Blog and projects were explicitly **dropped** from scope.
 
 ## Tech stack
@@ -39,8 +41,12 @@ There is no test framework set up.
 
 ```
 src/
-├─ app/          routes + metadata: layout.tsx, page.tsx (CV), books/page.tsx, sitemap.ts, robots.ts, globals.css
-├─ components/   Section (section with optional `h2` title), TextButton, Header, LanguageSwitcher, ThemeToggle,
+├─ app/          routes + metadata: layout.tsx, page.tsx (CV), books/page.tsx, films/page.tsx, sitemap.ts, robots.ts, globals.css
+├─ components/   Section (section with optional `h2` title), TextButton, Navbar (client; one frosted-glass bar as wide as the content
+│                column: text tabs on the left with a motion `layoutId` active capsule, LanguageSwitcher
+│                (single button showing the other language, EN/TR) + ThemeToggle on the right, which show the
+│                same capsule on hover/focus; shared classes in navStyles.ts; in flow at the top, becomes `fixed`
+│                after scrolling by its own height, with a placeholder wrapper so content doesn't jump), LanguageSwitcher, ThemeToggle,
 │                ContactList, About, SkillList (4-column icon + label grid, used by Skills
 │                with brand icons from `react-icons/si` / `src/data/skills.ts`, and by Soft Skills with
 │                `fa6` icons in `text-primary` / `src/data/softSkills.ts`, labels translated via i18n keys),
@@ -58,7 +64,7 @@ src/
 ```
 
 How it fits together:
-- `app/layout.tsx` is the root layout. It injects `langInitScript` in `<head>`, wraps the app in `ThemeProvider` → `I18nProvider`, and renders `Header` (language switcher + theme toggle, top right) above every page.
+- `app/layout.tsx` is the root layout. It injects `langInitScript` in `<head>`, wraps the app in `ThemeProvider` → `I18nProvider`, and renders `Navbar` above every page.
 - Pages are **Server Components**. Translated text is rendered through the client component `<T k="key" />`, so pages stay server-rendered while text follows the selected language. Client components use `useT()` from `src/i18n/useLocale.ts` (`t`, `locale`, `changeLanguage`). **Don't use react-i18next's `useTranslation()` or `i18n.language` directly in components**: they return the already-switched language while later page segments are still hydrating, which causes hydration mismatches. `useT()`/`useLocale()` use `useSyncExternalStore` with a Turkish server snapshot to avoid that.
 - `lib/site.ts` is the single source for the site name, description and base URL (`NEXT_PUBLIC_SITE_URL`, see `.env.example`; it falls back to `http://localhost:3000`). It feeds `metadataBase`, `sitemap.ts` and `robots.ts`.
 - Every text button/link (e.g. About's "Read more", Experience's "Show more") uses `components/TextButton.tsx`: required `label`, optional `icon` (shown on the right), `href` renders a `next/link`, otherwise a `<button>` with `onClick`. It has no hooks, so it works in Server and Client Components.
@@ -79,6 +85,7 @@ How it fits together:
   | `text` (all text) | `#111111` | `#f5f5f5` |
   | `subtext` (secondary text) | `#6d6d6d` | `#a3a3a3` |
   | `muted` (e.g. Education field) | `#555555` | `#c4c4c4` |
+  | `shadow` (navbar shadows, opposite theme's background) | `#111111` | `#ffffff` |
 
   Use them as `bg-background`, `text-text`, `text-subtext`, `text-muted`, `text-primary`.
   Technology logos in Skills use `--color-brand-*` tokens (e.g. `text-brand-react`), also defined in `globals.css`; black-by-brand logos (Expo, Next.js) use `text-text`. The dark values are applied to the same variables through Tailwind's `dark` variant (`@variant dark` on `:root`), so components don't need `dark:` color variants.

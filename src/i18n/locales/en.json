@@ -37,10 +37,15 @@
   "education": "Education",
   "educationKtuSchool": "Karadeniz Technical University",
   "educationKtuField": "Software Engineering",
+  "home": "Home",
   "books": "Books",
-  "backHome": "← Home",
+  "navBooks": "Books Read",
   "noBooks": "No books yet.",
+  "films": "Film/Theatre",
+  "noFilms": "No films or plays yet.",
+  "mainNav": "Main menu",
   "switchToDark": "Switch to dark mode",
   "switchToLight": "Switch to light mode",
-  "language": "Language"
+  "switchToEnglish": "Switch to English",
+  "switchToTurkish": "Switch to Turkish"
 }

@@ -13,7 +13,7 @@ import { siteConfig } from "@/lib/site";
 
 export default function Home() {
   return (
-    <main className="mx-auto flex w-full max-w-3xl flex-col gap-10 px-4 sm:px-6 py-10">
+    <main className="mx-auto flex w-full max-w-3xl flex-col gap-10 px-4 sm:px-6 py-4 sm:py-6">
       <Section id="hero">
         <div className="flex items-center gap-4">
           <Image
