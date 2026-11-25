@@ -1,14 +1,11 @@
 import Image from "next/image";
-import { FaArrowRight } from "react-icons/fa6";
 import profilePhoto from "../../public/profile.jpg";
 import About from "@/components/About";
-import BookList from "@/components/BookList";
 import ContactList from "@/components/ContactList";
 import Education from "@/components/Education";
 import Experience from "@/components/Experience";
 import Section from "@/components/Section";
 import SkillList from "@/components/SkillList";
-import TextButton from "@/components/TextButton";
 import { skills } from "@/data/skills";
 import { softSkills } from "@/data/softSkills";
 import T from "@/i18n/T";
@@ -69,19 +66,6 @@ export default function Home() {
       </Section>
       <Section id="education" title={<T k="education" />}>
         <Education />
-      </Section>
-      <Section
-        id="books"
-        title={<T k="books" />}
-        action={
-          <TextButton
-            href="/books"
-            label={<T k="showAll" />}
-            icon={<FaArrowRight />}
-          />
-        }
-      >
-        <BookList />
       </Section>
     </main>
   );

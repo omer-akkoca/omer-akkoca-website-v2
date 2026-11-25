@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 
 type TextButtonProps = {
-  /** Required visible text, e.g. `<T k="showAll" />` or `t("readMore")`. */
+  /** Required visible text, e.g. `<T k="readMore" />` or `t("readMore")`. */
   label: ReactNode;
   /** Optional icon shown to the right of the text, e.g. `<FaArrowRight />`. */
   icon?: ReactNode;

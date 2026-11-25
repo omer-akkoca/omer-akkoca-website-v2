@@ -9,7 +9,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Personal CV website for Ömer Akkoca. The goal is a CV-style personal site that is discoverable on Google, so SEO matters: content should be rendered on the server / at build time.
 
 Scope:
-- **Home page** (`/`): Hero (photo + name/title), Contact (icon + link grid, data in `src/data/contact.ts`), About, Experience, Skills, Soft Skills, Education, and a Books preview whose title row has a "Show all" link on the right.
+- **Home page** (`/`): Hero (photo + name/title), Contact (icon + link grid, data in `src/data/contact.ts`), About, Experience, Skills, Soft Skills, and Education. There is no Books section on the home page and no link to `/books` from it.
 - **Books page** (`/books`): full list of books read. The data is kept in Firebase.
 - Blog and projects were explicitly **dropped** from scope.
 
@@ -40,7 +40,7 @@ There is no test framework set up.
 ```
 src/
 ├─ app/          routes + metadata: layout.tsx, page.tsx (CV), books/page.tsx, sitemap.ts, robots.ts, globals.css
-├─ components/   Section (titled section with right-side `action` slot), TextButton, Header, LanguageSwitcher, ThemeToggle,
+├─ components/   Section (section with optional `h2` title), TextButton, Header, LanguageSwitcher, ThemeToggle,
 │                ContactList, About, SkillList (4-column icon + label grid, used by Skills
 │                with brand icons from `react-icons/si` / `src/data/skills.ts`, and by Soft Skills with
 │                `fa6` icons in `text-primary` / `src/data/softSkills.ts`, labels translated via i18n keys),
@@ -49,7 +49,7 @@ src/
 │                description in `text-description` (same look as About's `text-body`),
 │                data in `src/data/experience.ts`, logos in `public/experience/`; first 2 shown, the rest
 │                behind a Show more/less TextButton toggle animated with motion, always in the DOM for SEO),
-│                BookList (async server component, last 6 books, 6/3/2 columns) + BookCard (385×600 cover, rounded + shadow)
+│                BookCard (385×600 cover, rounded + shadow; for the `/books` page)
 ├─ i18n/         locales/{tr,en}.json, config.ts (i18next instance, locales, langInitScript),
 │                i18next.d.ts (typed keys), I18nProvider.tsx, useLocale.ts (useT/useLocale), T.tsx (<T k="…" />)
 ├─ theme/        ThemeProvider.tsx (toggle context), constants.ts (Theme type, media query)
@@ -61,10 +61,10 @@ How it fits together:
 - `app/layout.tsx` is the root layout. It injects `langInitScript` in `<head>`, wraps the app in `ThemeProvider` → `I18nProvider`, and renders `Header` (language switcher + theme toggle, top right) above every page.
 - Pages are **Server Components**. Translated text is rendered through the client component `<T k="key" />`, so pages stay server-rendered while text follows the selected language. Client components use `useT()` from `src/i18n/useLocale.ts` (`t`, `locale`, `changeLanguage`). **Don't use react-i18next's `useTranslation()` or `i18n.language` directly in components**: they return the already-switched language while later page segments are still hydrating, which causes hydration mismatches. `useT()`/`useLocale()` use `useSyncExternalStore` with a Turkish server snapshot to avoid that.
 - `lib/site.ts` is the single source for the site name, description and base URL (`NEXT_PUBLIC_SITE_URL`, see `.env.example`; it falls back to `http://localhost:3000`). It feeds `metadataBase`, `sitemap.ts` and `robots.ts`.
-- Every text button/link (e.g. About's "Read more", Books' "Show all") uses `components/TextButton.tsx`: required `label`, optional `icon` (shown on the right), `href` renders a `next/link`, otherwise a `<button>` with `onClick`. It has no hooks, so it works in Server and Client Components.
+- Every text button/link (e.g. About's "Read more", Experience's "Show more") uses `components/TextButton.tsx`: required `label`, optional `icon` (shown on the right), `href` renders a `next/link`, otherwise a `<button>` with `onClick`. It has no hooks, so it works in Server and Client Components.
 - Books come from the Firestore collection `books-read` (fields: `title`, `author`, `image` [Firebase Storage URL], `description`, `started_at` Timestamp, `ended_at` Timestamp or the string `"forever"` for books read continuously). `lib/books.ts` maps them in a single `mapBook()` (non-Timestamp dates become `undefined`) and fetches with `"use cache"` + `cacheLife("hours")` (the project uses `cacheComponents`, so no `revalidate` export). Sort by `started_at`, not `ended_at` (mixed types). Covers are served via `next/image`; `next.config.ts` allows `firebasestorage.googleapis.com/v0/b/omer-akkoca.appspot.com/o/**`.
 - Firebase config lives in **server-only env vars** `FIREBASE_*` (no `NEXT_PUBLIC_`), in `.env.local` (gitignored) and in Vercel settings; see `.env.example`.
-- On the home page, Hero holds the only `h1`. The other sections use `components/Section.tsx` (`h2` + optional right-aligned `action`; Books uses it for the "Show all" link to `/books`).
+- On the home page, Hero holds the only `h1`. The other sections use `components/Section.tsx` (`h2` title).
 
 ## Conventions
 
@@ -108,7 +108,7 @@ Always format dates with **dayjs** through `formatDate(date, locale, format?)` i
 
 ## Status / roadmap
 
-Done: home page Books preview (last 6 from Firestore), skeleton pages (sections show titles only, `/books` shows an empty state), color tokens, light/dark theme (Tailwind), TR/EN switching (i18next), sitemap/robots, dayjs helper.
+Done: skeleton pages (sections show titles only, `/books` shows an empty state), color tokens, light/dark theme (Tailwind), TR/EN switching (i18next), sitemap/robots, dayjs helper.
 
 Next:
 - Section contents (planned as typed data in `src/data/cv.ts`) and the profile photo.
