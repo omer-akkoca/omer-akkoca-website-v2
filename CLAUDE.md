@@ -47,7 +47,8 @@ src/
 │                Education (school / years / field rows, data in `src/data/education.ts`),
 │                Experience (client; 42×42 round logo, role + right-aligned date range · duration, company · type,
 │                description in `text-description` (same look as About's `text-body`),
-│                data in `src/data/experience.ts`, logos in `public/experience/`),
+│                data in `src/data/experience.ts`, logos in `public/experience/`; first 2 shown, the rest
+│                behind a Show more/less TextButton toggle animated with motion, always in the DOM for SEO),
 │                BookList (async server component, last 6 books, 6/3/2 columns) + BookCard (385×600 cover, rounded + shadow)
 ├─ i18n/         locales/{tr,en}.json, config.ts (i18next instance, locales, langInitScript),
 │                i18next.d.ts (typed keys), I18nProvider.tsx, useLocale.ts (useT/useLocale), T.tsx (<T k="…" />)
