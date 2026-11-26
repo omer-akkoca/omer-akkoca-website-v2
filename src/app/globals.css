@@ -64,6 +64,9 @@
   --text-book-quote: clamp(0.8125rem, 0.78rem + 0.15vw, 0.9375rem); /* 13px → 15px, BookListItem quote */
   --text-book-quote--line-height: 1.7;
   --text-book-date: clamp(0.75rem, 0.72rem + 0.1vw, 0.8125rem); /* 12px → 13px, BookListItem reading dates */
+  --text-not-found-message: 1rem; /* 16px, 404 page message */
+  --text-not-found-code: clamp(1.5625rem, 0.9rem + 3vw, 2.5rem); /* 25px → 40px, 404 page "404" */
+  --text-not-found-code--line-height: 1;
 }
 
 @theme inline {
