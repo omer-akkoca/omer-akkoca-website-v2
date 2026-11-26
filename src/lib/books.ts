@@ -54,24 +54,6 @@ export function mapBook(doc: QueryDocumentSnapshot): Book {
   };
 }
 
-/**
- * Most recently started books (includes ones still being read). Sorted by `started_at` because
- * `ended_at` mixes Timestamps with the string "forever".
- */
-export async function getLatestBooks(count = 6): Promise<Book[]> {
-  "use cache";
-  cacheLife("hours");
-
-  const snapshot = await getDocs(
-    query(
-      collection(db, BOOKS_COLLECTION),
-      orderBy("started_at", "desc"),
-      limit(count),
-    ),
-  );
-  return snapshot.docs.map(mapBook);
-}
-
 export type BooksPage = {
   books: Book[];
   /** Id of the last book on this page, or `null` when there are no more books. */
