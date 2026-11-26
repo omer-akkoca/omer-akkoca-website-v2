@@ -12,6 +12,22 @@ const firebaseConfig = {
   appId: process.env.FIREBASE_APP_ID,
 };
 
+// Fail with the missing variable names (e.g. on a Vercel build without them) instead of an
+// opaque Firestore error later.
+const missing = Object.entries({
+  FIREBASE_API_KEY: firebaseConfig.apiKey,
+  FIREBASE_AUTH_DOMAIN: firebaseConfig.authDomain,
+  FIREBASE_PROJECT_ID: firebaseConfig.projectId,
+  FIREBASE_STORAGE_BUCKET: firebaseConfig.storageBucket,
+  FIREBASE_MESSAGING_SENDER_ID: firebaseConfig.messagingSenderId,
+  FIREBASE_APP_ID: firebaseConfig.appId,
+})
+  .filter(([, value]) => !value)
+  .map(([name]) => name);
+if (missing.length > 0) {
+  throw new Error(`Missing Firebase env vars: ${missing.join(", ")} (see .env.example)`);
+}
+
 const app = getApps()[0] ?? initializeApp(firebaseConfig);
 
 export const db = getFirestore(app);

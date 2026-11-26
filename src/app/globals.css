@@ -26,6 +26,7 @@
   --color-subtext: #6d6d6d;
   --color-muted: #555555;
   --color-shadow: #111111; /* navbar shadows: the opposite theme's background */
+  --color-on-primary: #ffffff; /* text/icons on bg-primary, same in both themes */
 
   /* Brand colors for technology logos (Skills section). */
   --color-brand-react: #61dafb;
@@ -48,6 +49,7 @@
   --text-body--line-height: 1.625;
   --text-description: 0.8125rem; /* 13px, same as --text-body; Experience descriptions */
   --text-description--line-height: 1.625;
+  --text-cv-button: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem); /* 12px → 14px, hero CV button */
   --text-caption: 0.8rem; /* 10px, e.g. "Read more" */
   --text-nav: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem); /* 12px → 14px, navbar tabs and language button */
   --text-footer: clamp(0.6750rem, 0.6rem + 0.25vw, 0.75rem); /* 11px → 12px, footer credit line */
@@ -62,6 +64,9 @@
   --text-book-quote: clamp(0.8125rem, 0.78rem + 0.15vw, 0.9375rem); /* 13px → 15px, BookListItem quote */
   --text-book-quote--line-height: 1.7;
   --text-book-date: clamp(0.75rem, 0.72rem + 0.1vw, 0.8125rem); /* 12px → 13px, BookListItem reading dates */
+  --text-not-found-message: 1rem; /* 16px, 404 page message */
+  --text-not-found-code: clamp(1.5625rem, 0.9rem + 3vw, 2.5rem); /* 25px → 40px, 404 page "404" */
+  --text-not-found-code--line-height: 1;
 }
 
 @theme inline {

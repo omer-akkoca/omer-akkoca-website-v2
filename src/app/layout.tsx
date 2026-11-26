@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
+import ScrollToTop from "@/components/ScrollToTop";
 import { langInitScript } from "@/i18n/config";
 import I18nProvider from "@/i18n/I18nProvider";
 import { siteConfig } from "@/lib/site";
@@ -36,6 +37,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="flex min-h-full flex-col bg-background font-sans text-text in-data-lang-pending:invisible">
         <ThemeProvider>
           <I18nProvider>
+            <ScrollToTop />
             <Navbar />
             {children}
             <Footer />

@@ -7,7 +7,7 @@ export type ContactItem = {
   href: string;
 };
 
-const mapsQuery = encodeURIComponent("Meclis Mahallesi Asi Sokak, Sancaktepe, İstanbul");
+const mapsQuery = encodeURIComponent("Meclis Mahallesi, Sancaktepe, İstanbul");
 
 export const contacts: ContactItem[] = [
   { icon: FaPhone, label: "+90 534 623 52 70", href: "tel:+905346235270" },
