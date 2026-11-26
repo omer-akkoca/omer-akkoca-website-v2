@@ -40,7 +40,7 @@
   "home": "Anasayfa",
   "books": "Kitaplar",
   "navBooks": "Okunan Kitaplar",
-  "booksIntro": "Okuduğum kitaplar ve onlardan aldığım fikirlerden bir derleme.",
+  "booksIntro": "Yazılım dışında beni besleyen kitaplar ve altını çizdiğim satırlar.",
   "bookCoverAlt": "{{title}} kitabının kapağı",
   "noBooks": "Henüz kitap eklenmedi.",
   "loadingBooks": "Yükleniyor…",
