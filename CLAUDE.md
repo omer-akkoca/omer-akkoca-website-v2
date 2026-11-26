@@ -9,7 +9,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Personal CV website for Ömer Akkoca. The goal is a CV-style personal site that is discoverable on Google, so SEO matters: content should be rendered on the server / at build time.
 
 Scope:
-- **Home page** (`/`): Hero (photo + name/title on the left, `DownloadCvButton` on the right downloading `public/Omer_Akkoca_React_Native_Developer_CV.pdf`), Contact (icon + link grid, data in `src/data/contact.ts`), About, Experience, Skills, Soft Skills, and Education. There is no Books section on the home page; `/books` is reached through the navbar.
+- **Home page** (`/`): Hero (`components/Hero.tsx`: photo on the left, name / title / "CV İndir" `TextButton` (`download`, `public/Omer_Akkoca_React_Native_Developer_CV.pdf`) stacked on its right; below `sm` a `public/cover.jpeg` banner sits on top with the photo overlapping its bottom edge, and everything stacks vertically and centered), Contact (icon + link grid, data in `src/data/contact.ts`), About, Experience, Skills, Soft Skills, and Education. There is no Books section on the home page; `/books` is reached through the navbar.
 - **Books page** (`/books`): full list of books read, from Firebase. First 10 are server-rendered; a "Load more" button below the list loads 10 more each time.
 - **Films page** (`/films`): films and plays watched (currently an empty-state placeholder).
 - **Navbar** on every page: tabs Anasayfa (`/`), Okunan Kitaplar (`/books`), Film/Tiyatro (`/films`), plus language and theme controls.
@@ -45,8 +45,13 @@ src/
 ├─ components/   Section (section with optional `h2` title), TextButton, Footer (thin `subtext` top border, left-aligned medium `subtext` credit line), Navbar (client; one frosted-glass bar as wide as the content
 │                column: text tabs on the left with a motion `layoutId` active capsule, LanguageSwitcher
 │                (single button showing the other language, EN/TR) + ThemeToggle on the right, which show the
-│                same capsule on hover/focus; shared classes in navStyles.ts; in flow at the top, becomes `fixed`
-│                after scrolling by its own height, with a placeholder wrapper so content doesn't jump), LanguageSwitcher, ThemeToggle,
+│                same capsule on hover/focus; shared classes in navStyles.ts, tabs (href, label key, fa6 icon) + isActive in navTabs.ts;
+│                in flow at the top, becomes `fixed` after scrolling by its own height, with a placeholder wrapper so content
+│                doesn't jump; `sm` and up only. Below `sm` Navbar renders nothing (no language/theme
+│                controls on mobile) and the tabs move to MobileTabBar),
+│                MobileTabBar (client, below `sm` only, rendered in layout after Footer: the same glass bar fixed to the bottom,
+│                icon-only tabs (label as aria-label/title), own `layoutId` capsule, safe-area bottom padding, in-flow
+│                placeholder (`--tabbar-height`) so the footer isn't covered), LanguageSwitcher, ThemeToggle,
 │                ContactList, About, Paragraph (body text `<p>`: `text-body` `text-subtext`, justified,
 │                keeps line breaks; takes children + optional id/className; no hooks; used by About), SkillList (4-column icon + label grid, used by Skills
 │                with brand icons from `react-icons/si` / `src/data/skills.ts`, and by Soft Skills with
@@ -74,7 +79,7 @@ How it fits together:
 - `app/layout.tsx` is the root layout. It injects `langInitScript` in `<head>`, wraps the app in `ThemeProvider` → `I18nProvider`, and renders `Navbar` above and `Footer` below every page. It also renders `ScrollToTop` (client, renders nothing): on every pathname change after the first render it calls `window.scrollTo({ top: 0, behavior: "instant" })`, because Next.js only scrolls when the new page isn't visible, and then only to the page element behind the navbar.
 - Pages are **Server Components**. Translated text is rendered through the client component `<T k="key" />`, so pages stay server-rendered while text follows the selected language. Client components use `useT()` from `src/i18n/useLocale.ts` (`t`, `locale`, `changeLanguage`). **Don't use react-i18next's `useTranslation()` or `i18n.language` directly in components**: they return the already-switched language while later page segments are still hydrating, which causes hydration mismatches. `useT()`/`useLocale()` use `useSyncExternalStore` with a Turkish server snapshot to avoid that.
 - `lib/site.ts` is the single source for the site name, description and base URL (`NEXT_PUBLIC_SITE_URL`, see `.env.example`; when unset or empty it falls back to `https://omerakkoca.com` on Vercel production builds (`VERCEL_ENV === "production"`) and to `http://localhost:3000` elsewhere; trailing slashes are trimmed). It feeds `metadataBase`, `sitemap.ts` and `robots.ts`.
-- Every text button/link (e.g. About's "Read more", Experience's "Show more") uses `components/TextButton.tsx`: required `label`, optional `icon` (shown on the right), `href` renders a `next/link`, otherwise a `<button>` with `onClick`. It has no hooks, so it works in Server and Client Components.
+- Every text button/link (e.g. About's "Read more", Experience's "Show more") uses `components/TextButton.tsx`: required `label`, optional `icon` (shown on the right), `href` renders a `next/link` (or a plain `<a download>` with `download`), otherwise a `<button>` with `onClick`. It has no hooks, so it works in Server and Client Components.
 - Books come from the Firestore collection `books-read` (fields: `title`, `author`, `image` [Firebase Storage URL], `description`, `started_at` Timestamp, `ended_at` Timestamp or the string `"forever"` for books read continuously). `lib/books.ts` maps them in a single `mapBook()` (non-Timestamp dates become `undefined`; `readForever` is true when `ended_at` is "forever") and fetches with `"use cache"` + `cacheLife("hours")` (the project uses `cacheComponents`, so no `revalidate` export). Sort by `started_at`, not `ended_at` (mixed types). Covers are served via `next/image`; `next.config.ts` allows `firebasestorage.googleapis.com/v0/b/omer-akkoca.appspot.com/o/**`.
 - Firebase config lives in **server-only env vars** `FIREBASE_*` (no `NEXT_PUBLIC_`), in `.env.local` (gitignored) and in Vercel settings; see `.env.example`.
 - On the home page, Hero holds the only `h1`. The other sections use `components/Section.tsx` (`h2` title).

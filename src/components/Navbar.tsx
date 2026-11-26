@@ -4,21 +4,15 @@ import { animate, motion } from "motion/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import type { TranslationKey } from "@/i18n/T";
 import { useT } from "@/i18n/useLocale";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { NAV_GLASS, NAV_PILL } from "./navStyles";
+import { isActive, TABS } from "./navTabs";
 import ThemeToggle from "./ThemeToggle";
 
-const TABS: { href: string; label: TranslationKey }[] = [
-  { href: "/", label: "home" },
-  { href: "/books", label: "navBooks" },
-  { href: "/films", label: "films" },
-];
-
-function isActive(pathname: string, href: string) {
-  return href === "/" ? pathname === "/" : pathname.startsWith(href);
-}
+// Matches Tailwind's `sm` breakpoint: below it the top bar is hidden and the
+// tabs live in MobileTabBar.
+const DESKTOP_QUERY = "(min-width: 40rem)";
 
 export default function Navbar() {
   const { t } = useT();
@@ -37,7 +31,9 @@ export default function Navbar() {
     const bar = barRef.current;
     if (!wrapper || !bar) return;
 
-    const update = () => setIsFixed(window.scrollY >= heightRef.current);
+    const desktop = window.matchMedia(DESKTOP_QUERY);
+    const update = () =>
+      setIsFixed(desktop.matches && window.scrollY >= heightRef.current);
     const observer = new ResizeObserver(() => {
       heightRef.current = bar.offsetHeight;
       wrapper.style.setProperty("--navbar-height", `${bar.offsetHeight}px`);
@@ -45,28 +41,39 @@ export default function Navbar() {
     });
     observer.observe(bar);
     window.addEventListener("scroll", update, { passive: true });
+    desktop.addEventListener("change", update);
     return () => {
       observer.disconnect();
       window.removeEventListener("scroll", update);
+      desktop.removeEventListener("change", update);
     };
   }, []);
 
   // Slide the bar in from above when it becomes fixed.
   useEffect(() => {
     if (isFixed && barRef.current) {
-      animate(barRef.current, { y: ["-100%", "0%"] }, { type: "spring", stiffness: 400, damping: 35 });
+      animate(
+        barRef.current,
+        { y: ["-100%", "0%"] },
+        { type: "spring", stiffness: 400, damping: 35 },
+      );
     }
   }, [isFixed]);
 
   return (
-    <div ref={wrapperRef} className="h-(--navbar-height)">
+    <div ref={wrapperRef} className="h-(--navbar-height) max-sm:hidden">
       <div
         ref={barRef}
         className={isFixed ? "fixed inset-x-0 top-0 z-50" : "relative"}
       >
         <div className="mx-auto w-full max-w-3xl px-4 py-4 sm:px-6">
-          <div className={`${NAV_GLASS} flex w-full items-center justify-between gap-2 p-1.5`}>
-            <nav aria-label={t("mainNav")} className="flex items-center gap-0.5">
+          <div
+            className={`${NAV_GLASS} flex w-full items-center justify-between gap-2 p-1.5`}
+          >
+            <nav
+              aria-label={t("mainNav")}
+              className="flex items-center gap-0.5"
+            >
               {TABS.map(({ href, label }) => {
                 const active = isActive(pathname, href);
                 return (
@@ -81,11 +88,17 @@ export default function Navbar() {
                     {active && (
                       <motion.span
                         layoutId="nav-active"
-                        transition={{ type: "spring", stiffness: 500, damping: 40 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 500,
+                          damping: 40,
+                        }}
                         className={`absolute inset-0 ${NAV_PILL}`}
                       />
                     )}
-                    <span className="relative text-nav whitespace-nowrap font-medium">{t(label)}</span>
+                    <span className="relative text-nav whitespace-nowrap font-medium">
+                      {t(label)}
+                    </span>
                   </Link>
                 );
               })}

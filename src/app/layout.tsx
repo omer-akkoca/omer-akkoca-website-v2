@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Footer from "@/components/Footer";
+import MobileTabBar from "@/components/MobileTabBar";
 import Navbar from "@/components/Navbar";
 import ScrollToTop from "@/components/ScrollToTop";
 import { langInitScript } from "@/i18n/config";
@@ -41,6 +42,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             <Navbar />
             {children}
             <Footer />
+            <MobileTabBar />
           </I18nProvider>
         </ThemeProvider>
       </body>
