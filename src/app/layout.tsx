@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { langInitScript } from "@/i18n/config";
 import I18nProvider from "@/i18n/I18nProvider";
@@ -32,11 +33,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <head>
         <script dangerouslySetInnerHTML={{ __html: langInitScript }} />
       </head>
-      <body className="flex min-h-full flex-col bg-background font-sans text-text [[data-lang-pending]_&]:invisible">
+      <body className="flex min-h-full flex-col bg-background font-sans text-text in-data-lang-pending:invisible">
         <ThemeProvider>
           <I18nProvider>
             <Navbar />
             {children}
+            <Footer />
           </I18nProvider>
         </ThemeProvider>
       </body>
