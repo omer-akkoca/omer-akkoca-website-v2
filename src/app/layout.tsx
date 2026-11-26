@@ -33,7 +33,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <head>
         <script dangerouslySetInnerHTML={{ __html: langInitScript }} />
       </head>
-      <body className="flex min-h-full flex-col bg-background font-sans text-text [[data-lang-pending]_&]:invisible">
+      <body className="flex min-h-full flex-col bg-background font-sans text-text in-data-lang-pending:invisible">
         <ThemeProvider>
           <I18nProvider>
             <Navbar />

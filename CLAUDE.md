@@ -103,7 +103,7 @@ How it fits together:
 - The i18next instance always initializes in Turkish (synchronously, `initAsync: false`), so server HTML and the first client render match. Server HTML and metadata are therefore always Turkish, which is what search engines index. `I18nProvider` switches to the saved language after hydration.
 
 ### Flash prevention
-`langInitScript` (`src/i18n/config.ts`) runs in `<head>` before first paint. For a saved English locale it sets `data-lang-pending`, which hides `<body>` (`[[data-lang-pending]_&]:invisible`) until `I18nProvider` has switched the language and re-rendered. The theme needs no script because it is pure CSS.
+`langInitScript` (`src/i18n/config.ts`) runs in `<head>` before first paint. For a saved English locale it sets `data-lang-pending`, which hides `<body>` (`in-data-lang-pending:invisible`) until `I18nProvider` has switched the language and re-rendered. The theme needs no script because it is pure CSS.
 
 ### Dates
 Always format dates with **dayjs** through `formatDate(date, locale, format?)` in `src/lib/date.ts`, passing the current language from `useT().locale`. Don't use `Date.toLocale*`, `Intl.DateTimeFormat`, or the global `dayjs.locale()`.
