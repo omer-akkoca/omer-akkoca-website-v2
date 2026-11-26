@@ -8,6 +8,8 @@ type TextButtonProps = {
   icon?: ReactNode;
   /** Renders a `next/link` when set, otherwise a `<button>`. */
   href?: string;
+  /** With `href`: renders a plain `<a download>` (for static files in public/) instead of `next/link`. */
+  download?: boolean;
   onClick?: () => void;
   /** Extra classes for outer spacing, e.g. "mt-2". */
   className?: string;
@@ -27,6 +29,7 @@ export default function TextButton({
   label,
   icon,
   href,
+  download,
   onClick,
   className,
   ...aria
@@ -42,6 +45,14 @@ export default function TextButton({
       )}
     </>
   );
+
+  if (href && download) {
+    return (
+      <a href={href} download onClick={onClick} className={classes}>
+        {content}
+      </a>
+    );
+  }
 
   if (href) {
     return (
