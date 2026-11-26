@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { useState } from "react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa6";
+import Paragraph from "@/components/Paragraph";
 import TextButton from "@/components/TextButton";
 import { useT } from "@/i18n/useLocale";
 
@@ -35,14 +36,9 @@ export default function About() {
         }}
         className="overflow-hidden"
       >
-        <p
-          id="about-text"
-          className={`text-body whitespace-pre-line text-justify text-subtext ${
-            clamped ? "line-clamp-5" : ""
-          }`}
-        >
+        <Paragraph id="about-text" className={clamped ? "line-clamp-5" : ""}>
           {t("aboutText")}
-        </p>
+        </Paragraph>
       </motion.div>
       <TextButton
         className="mt-2"

@@ -9,6 +9,7 @@ import TextButton from "@/components/TextButton";
 import { experience } from "@/data/experience";
 import { useT } from "@/i18n/useLocale";
 import { formatDate } from "@/lib/date";
+import Paragraph from "./Paragraph";
 
 /** Number of entries shown before "Show more". */
 const VISIBLE_COUNT = 2;
@@ -90,9 +91,9 @@ export default function Experience() {
         <p className="text-entry text-muted">
           {company} · {t(employmentTypeKey)}{durationText(startDate, endDate)}
         </p>
-        <p className="mt-1 text-body whitespace-pre-line text-subtext text-justify">
+        <Paragraph id={`experience-${id}`} className="mt-1">
           {t(descriptionKey)}
-        </p>
+        </Paragraph>
       </div>
     </li>
   );
