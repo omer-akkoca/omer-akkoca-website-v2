@@ -9,7 +9,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Personal CV website for Ömer Akkoca. The goal is a CV-style personal site that is discoverable on Google, so SEO matters: content should be rendered on the server / at build time.
 
 Scope:
-- **Home page** (`/`): Hero (photo + name/title), Contact (icon + link grid, data in `src/data/contact.ts`), About, Experience, Skills, Soft Skills, and Education. There is no Books section on the home page; `/books` is reached through the navbar.
+- **Home page** (`/`): Hero (photo + name/title on the left, `DownloadCvButton` on the right linking to `public/cv.pdf`), Contact (icon + link grid, data in `src/data/contact.ts`), About, Experience, Skills, Soft Skills, and Education. There is no Books section on the home page; `/books` is reached through the navbar.
 - **Books page** (`/books`): full list of books read, from Firebase. First 10 are server-rendered; a "Load more" button below the list loads 10 more each time.
 - **Films page** (`/films`): films and plays watched (currently an empty-state placeholder).
 - **Navbar** on every page: tabs Anasayfa (`/`), Okunan Kitaplar (`/books`), Film/Tiyatro (`/films`), plus language and theme controls.
@@ -93,6 +93,7 @@ How it fits together:
   | `subtext` (secondary text) | `#6d6d6d` | `#a3a3a3` |
   | `muted` (e.g. Education field) | `#555555` | `#c4c4c4` |
   | `shadow` (navbar shadows, opposite theme's background) | `#111111` | `#ffffff` |
+  | `on-primary` (text/icons on `bg-primary`) | `#ffffff` | `#ffffff` |
 
   Use them as `bg-background`, `text-text`, `text-subtext`, `text-muted`, `text-primary`.
   Technology logos in Skills use `--color-brand-*` tokens (e.g. `text-brand-react`), also defined in `globals.css`; black-by-brand logos (Expo, Next.js) use `text-text`. The dark values are applied to the same variables through Tailwind's `dark` variant (`@variant dark` on `:root`), so components don't need `dark:` color variants.

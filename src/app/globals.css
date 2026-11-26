@@ -26,6 +26,7 @@
   --color-subtext: #6d6d6d;
   --color-muted: #555555;
   --color-shadow: #111111; /* navbar shadows: the opposite theme's background */
+  --color-on-primary: #ffffff; /* text/icons on bg-primary, same in both themes */
 
   /* Brand colors for technology logos (Skills section). */
   --color-brand-react: #61dafb;
@@ -48,6 +49,7 @@
   --text-body--line-height: 1.625;
   --text-description: 0.8125rem; /* 13px, same as --text-body; Experience descriptions */
   --text-description--line-height: 1.625;
+  --text-cv-button: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem); /* 12px → 14px, hero CV button */
   --text-caption: 0.8rem; /* 10px, e.g. "Read more" */
   --text-nav: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem); /* 12px → 14px, navbar tabs and language button */
   --text-footer: clamp(0.6750rem, 0.6rem + 0.25vw, 0.75rem); /* 11px → 12px, footer credit line */
