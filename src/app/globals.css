@@ -50,6 +50,7 @@
   --text-description--line-height: 1.625;
   --text-caption: 0.8rem; /* 10px, e.g. "Read more" */
   --text-nav: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem); /* 12px → 14px, navbar tabs and language button */
+  --text-footer: clamp(0.6750rem, 0.6rem + 0.25vw, 0.75rem); /* 11px → 12px, footer credit line */
 }
 
 @theme inline {

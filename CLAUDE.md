@@ -42,7 +42,7 @@ There is no test framework set up.
 ```
 src/
 ├─ app/          routes + metadata: layout.tsx, page.tsx (CV), books/page.tsx, films/page.tsx, sitemap.ts, robots.ts, globals.css
-├─ components/   Section (section with optional `h2` title), TextButton, Navbar (client; one frosted-glass bar as wide as the content
+├─ components/   Section (section with optional `h2` title), TextButton, Footer (thin `subtext` top border, left-aligned medium `subtext` credit line), Navbar (client; one frosted-glass bar as wide as the content
 │                column: text tabs on the left with a motion `layoutId` active capsule, LanguageSwitcher
 │                (single button showing the other language, EN/TR) + ThemeToggle on the right, which show the
 │                same capsule on hover/focus; shared classes in navStyles.ts; in flow at the top, becomes `fixed`
@@ -64,7 +64,7 @@ src/
 ```
 
 How it fits together:
-- `app/layout.tsx` is the root layout. It injects `langInitScript` in `<head>`, wraps the app in `ThemeProvider` → `I18nProvider`, and renders `Navbar` above every page.
+- `app/layout.tsx` is the root layout. It injects `langInitScript` in `<head>`, wraps the app in `ThemeProvider` → `I18nProvider`, and renders `Navbar` above and `Footer` below every page.
 - Pages are **Server Components**. Translated text is rendered through the client component `<T k="key" />`, so pages stay server-rendered while text follows the selected language. Client components use `useT()` from `src/i18n/useLocale.ts` (`t`, `locale`, `changeLanguage`). **Don't use react-i18next's `useTranslation()` or `i18n.language` directly in components**: they return the already-switched language while later page segments are still hydrating, which causes hydration mismatches. `useT()`/`useLocale()` use `useSyncExternalStore` with a Turkish server snapshot to avoid that.
 - `lib/site.ts` is the single source for the site name, description and base URL (`NEXT_PUBLIC_SITE_URL`, see `.env.example`; it falls back to `http://localhost:3000`). It feeds `metadataBase`, `sitemap.ts` and `robots.ts`.
 - Every text button/link (e.g. About's "Read more", Experience's "Show more") uses `components/TextButton.tsx`: required `label`, optional `icon` (shown on the right), `href` renders a `next/link`, otherwise a `<button>` with `onClick`. It has no hooks, so it works in Server and Client Components.
